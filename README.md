@@ -1,16 +1,150 @@
-# Youtube-transcript-summarizer
+# YouTube Transcript Summarizer
 
-To run this project 
-1.create google api key and add it to the .env file
-2.add index.html to templates
-3.add style.css to static
+A Flask-based web application that automatically fetches YouTube video captions and generates AI-powered summaries using Google Gemini API. Supports summarization in multiple Indian regional languages.
 
-The directory structure will be shown below
+## Features
 
+- 🎥 Extract captions from any YouTube video
+- 🤖 AI-powered summarization using Google Gemini API
+- 🌐 Multi-language support:
+  - English
+  - Kannada (ಕನ್ನಡ)
+  - Telugu (తెలుగు)
+  - Tamil (தமிழ்)
+  - Malayalam (മലയാളം)
+- 💻 Clean and responsive web interface
+- ⚡ Fast and efficient processing
+
+## Prerequisites
+
+Before running this project, ensure you have the following installed:
+
+- Python 3.7 or higher
+- pip (Python package installer)
+- A Google API key with Gemini API access
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/chinmaynaik-hub/youtube-transcript-summarizer.git
+   cd youtube-transcript-summarizer
+   ```
+
+2. **Install required dependencies**
+   ```bash
+   pip install flask youtube-transcript-api google-generativeai python-dotenv
+   ```
+
+3. **Set up your Google API key**
+   - Create a `.env` file in the root directory
+   - Add your Google Gemini API key:
+     ```
+     GOOGLE_API_KEY=your_api_key_here
+     ```
+   - Get your API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+
+## Project Structure
+
+```
 your_project_folder/
-|__ .env                # google API key
-├── app.py              # Flask backend
-├── templates/          # HTML files
-│   └── index.html     
-└── static/             # CSS, JS, images
-    └── style.css      
+├── .env                 # Environment variables (Google API key)
+├── app.py              # Flask backend application
+├── templates/          # HTML templates
+│   └── index.html     # Main web interface
+└── static/            # Static assets
+    └── style.css      # Stylesheet
+```
+
+## Running the Application
+
+1. **Start the Flask server**
+   ```bash
+   python app.py
+   ```
+
+2. **Access the application**
+   - Open your web browser
+   - Navigate to `http://localhost:5000`
+
+3. **Use the application**
+   - Paste a YouTube video URL
+   - Select your preferred language
+   - Click "Summarize" to get the AI-generated summary
+
+## How It Works
+
+1. **Caption Extraction**: The application fetches video captions using the YouTube Transcript API
+2. **API Request**: The transcript is sent to Google Gemini API for processing
+3. **Summarization**: Gemini generates a concise summary in the selected language
+4. **Display**: The summary is returned and displayed on the web interface
+
+## Configuration
+
+### Environment Variables
+
+Create a `.env` file with the following:
+
+```env
+GOOGLE_API_KEY=your_google_gemini_api_key
+```
+
+### Supported Languages
+
+- `en` - English
+- `kn` - Kannada
+- `te` - Telugu
+- `ta` - Tamil
+- `ml` - Malayalam
+
+## Dependencies
+
+- **Flask**: Web framework
+- **youtube-transcript-api**: For fetching video captions
+- **google-generativeai**: Google Gemini API client
+- **python-dotenv**: Environment variable management
+
+## Troubleshooting
+
+### Common Issues
+
+1. **No captions available**: Some videos don't have captions. Try another video.
+2. **API key error**: Ensure your Google API key is valid and has Gemini API access enabled.
+3. **Language not supported**: The video must have captions in or translatable to the selected language.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Google Gemini API for AI-powered summarization
+- YouTube Transcript API for caption extraction
+- Flask framework for web application development
+
+## Contributors
+
+This project was developed by:
+
+- **Bheemanagowda**
+- **Chetan M I**
+- **Chinmay Naik**
+- **Chinmay Soratur**
+
+## Contact
+
+Project Link: [https://github.com/chinmaynaik-hub/youtube-transcript-summarizer](https://github.com/chinmaynaik-hub/youtube-transcript-summarizer)
+
+---
+
+⭐ If you find this project useful, please consider giving it a star!
