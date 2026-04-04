@@ -33,7 +33,7 @@ Before running this project, ensure you have the following installed:
 
 2. **Install required dependencies**
    ```bash
-   pip install flask youtube-transcript-api google-generativeai python-dotenv
+   pip install -r requirements.txt
    ```
 
 3. **Set up your Google API key**
@@ -43,12 +43,27 @@ Before running this project, ensure you have the following installed:
      GOOGLE_API_KEY=your_api_key_here
      ```
    - Get your API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - 
+4. ** Create virtual environment to avoid python dependency conflicts**
+   - create virtual environment by running
+     | OS | Command |
+      |---|---|
+      | Windows | `python -m venv venv` |
+      | Linux | `python3 -m venv venv` |
+   - enter into virtual environment
+     | OS/Shell | Command |
+      |---|---|
+      | Windows Powershell | `.\venv\Scripts\Activate.ps1` |
+      | Windows CMD | `.\venv\Scripts\activate.bat` |
+      | Bash | `source venv/bin/activate` |
+     
 
 ## Project Structure
 
 ```
 your_project_folder/
-├── .env                 # Environment variables (Google API key)
+├── .env                # Environment variables (Google API key)
+├── requirements.txt    # contails all the dependencies
 ├── app.py              # Flask backend application
 ├── templates/          # HTML templates
 │   └── index.html     # Main web interface
@@ -136,10 +151,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 This project was developed by:
 
-- **Bheemanagowda**
-- **Chetan M I**
-- **Chinmay Naik**
-- **Chinmay Soratur**
+- **[Bheemanagowda](https://github.com/Bheemangowda2405)**
+- **[Chetan M I](https://github.com/chetan-mi)**
+- **[Chinmay Naik](https://github.com/chinmaynaik-hub)**
+- **[Chinmay Soratur](https://github.com/chinmayrs)**
 
 ## Contact
 
