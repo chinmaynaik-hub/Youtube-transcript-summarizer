@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Video Summarizer</h1>
+        <form id="video-form">
+            <label for="youtube-link">Enter YouTube Video URL:</label>
+            <input type="url" id="youtube-link" name="youtube_link" required placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
+            <button type="submit" id="submit-btn">Get Summary</button>
+            <button type="button" id="clear-btn">Clear</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <img id="thumbnail" src="" alt="Video Thumbnail">
+            <div id="summary"></div>
+            <button type="button" id="copy-btn">Copy Summary</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("video-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const youtubeLink = document.getElementById("youtube-link").value;
+            const response = await fetch("/process_video", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ youtube_link: youtubeLink })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                document.getElementById("thumbnail").src = result.thumbnail_url;
+                document.getElementById("summary").textContent = result.summary;
+                document.getElementById("result").style.display = "block";
+            } else {
+                alert(result.error || "An error occurred while processing the video.");
+            }
+        });
+
+        document.getElementById("clear-btn").addEventListener("click", function() {
+            document.getElementById("youtube-link").value = "";
+            document.getElementById("result").style.display = "none";
+        });
+
+        document.getElementById("copy-btn").addEventListener("click", function() {
+            const summaryText = document.getElementById("summary").textContent;
+            navigator.clipboard.writeText(summaryText).then(() => {
+                alert("Summary copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        });
+    </script>
+</body>
+</html>
