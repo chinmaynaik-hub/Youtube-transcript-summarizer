@@ -29,8 +29,9 @@ except Exception as e:
     logging.error("Failed to configure Google Generative AI client", exc_info=True)
     raise e
 
-# Define the prompt for Google Gemini
-prompt = """You are a YouTube video summarizer. Given the transcript of a video, provide a concise and informative summary. Here's the transcript: """
+# Define the prompt template for Google Gemini
+def get_prompt(language):
+    return f"""You are a YouTube video summarizer. Given the transcript of a video, provide a concise and informative summary in {language}. Here's the transcript: """
 
 
 # Function to extract transcript details from the YouTube video using yt-dlp
@@ -136,8 +137,11 @@ def process_video():
         # Generate thumbnail URL
         thumbnail_url = f"https://img.youtube.com/vi/{video_id}/0.jpg"
 
+        # Get selected language (default to English)
+        language = request.json.get('language', 'English')
+
         # Generate summary using Google Gemini
-        summary = generate_gemini_content(transcript_text, prompt)
+        summary = generate_gemini_content(transcript_text, get_prompt(language))
         if not summary:
             return jsonify({"error": "Failed to generate summary"}), 500
 

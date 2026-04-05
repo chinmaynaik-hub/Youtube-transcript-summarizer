@@ -1,21 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Video Summarizer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
     <div class="container">
         <h1>YouTube Video Summarizer</h1>
         <form id="video-form">
             <label for="youtube-link">Enter YouTube Video URL:</label>
-            <input type="url" id="youtube-link" name="youtube_link" required placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
+            <input type="url" id="youtube-link" name="youtube_link" required
+                placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
+
+            <label for="language-select">Select Language for Summary:</label>
+            <select id="language-select" name="language">
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Kannada">Kannada</option>
+                <option value="Korean">Korean</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Portuguese">Portuguese</option>
+                <option value="Russian">Russian</option>
+                <option value="Tamil">Tamil</option>
+                <option value="Telugu">Telugu</option>
+                <option value="Bengali">Bengali</option>
+                <option value="Marathi">Marathi</option>
+                <option value="Gujarati">Gujarati</option>
+                <option value="Urdu">Urdu</option>
+                <option value="Malayalam">Malayalam</option>
+            </select>
+
             <button type="submit" id="submit-btn">Get Summary</button>
-            <button type="button" id="clear-btn">Clear</button>
+            <div class="clear-btn-wrapper">
+                <button type="button" id="clear-btn">Clear</button>
+            </div>
         </form>
-        
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Generating summary, please wait...</p>
+        </div>
+
         <div id="result" class="result" style="display: none;">
             <img id="thumbnail" src="" alt="Video Thumbnail">
             <div id="summary"></div>
@@ -26,36 +60,51 @@
     <script>
         const submitBtn = document.getElementById("submit-btn");
 
-        document.getElementById("video-form").addEventListener("submit", async function(event) {
+        const loadingEl = document.getElementById("loading");
+
+        document.getElementById("video-form").addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const youtubeLink = document.getElementById("youtube-link").value;
-            const response = await fetch("/process_video", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ youtube_link: youtubeLink })
-            });
+            // Show loading, hide submit button
+            submitBtn.style.display = "none";
+            loadingEl.style.display = "flex";
 
-            const result = await response.json();
-            if (response.ok) {
-                document.getElementById("thumbnail").src = result.thumbnail_url;
-                document.getElementById("summary").textContent = result.summary;
-                document.getElementById("result").style.display = "block";
-                submitBtn.style.display = "none";
-            } else {
-                alert(result.error || "An error occurred while processing the video.");
+            try {
+                const youtubeLink = document.getElementById("youtube-link").value;
+                const language = document.getElementById("language-select").value;
+                const response = await fetch("/process_video", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ youtube_link: youtubeLink, language: language })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById("thumbnail").src = result.thumbnail_url;
+                    document.getElementById("summary").textContent = result.summary;
+                    document.getElementById("result").style.display = "block";
+                } else {
+                    alert(result.error || "An error occurred while processing the video.");
+                    submitBtn.style.display = "inline-block";
+                }
+            } catch (err) {
+                alert("Network error. Please try again.");
+                submitBtn.style.display = "inline-block";
+            } finally {
+                loadingEl.style.display = "none";
             }
         });
 
-        document.getElementById("clear-btn").addEventListener("click", function() {
+        document.getElementById("clear-btn").addEventListener("click", function () {
             document.getElementById("youtube-link").value = "";
             document.getElementById("result").style.display = "none";
+            loadingEl.style.display = "none";
             submitBtn.style.display = "inline-block";
         });
 
-        document.getElementById("copy-btn").addEventListener("click", function() {
+        document.getElementById("copy-btn").addEventListener("click", function () {
             const summaryText = document.getElementById("summary").textContent;
             navigator.clipboard.writeText(summaryText).then(() => {
                 alert("Summary copied to clipboard!");
@@ -65,4 +114,5 @@
         });
     </script>
 </body>
+
 </html>
