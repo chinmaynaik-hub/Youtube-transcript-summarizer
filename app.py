@@ -102,10 +102,15 @@ def extract_transcript_details(youtube_video_url):
         return None, None
 
 # Function to generate summary using Google Gemini
-def generate_gemini_content(transcript_text, prompt):
+def generate_gemini_content(transcript_text, prompt, custom_api_key=None):
     try:
+        # Determine which client to use
+        request_client = client
+        if custom_api_key:
+            request_client = genai.Client(api_key=custom_api_key)
+
         # Use Gemini model for generating summary
-        response = client.models.generate_content(
+        response = request_client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt + transcript_text
         )
@@ -139,9 +144,12 @@ def process_video():
 
         # Get selected language (default to English)
         language = request.json.get('language', 'English')
+        
+        # Get custom API key if provided
+        custom_api_key = request.json.get('api_key')
 
         # Generate summary using Google Gemini
-        summary = generate_gemini_content(transcript_text, get_prompt(language))
+        summary = generate_gemini_content(transcript_text, get_prompt(language), custom_api_key)
         if not summary:
             return jsonify({"error": "Failed to generate summary"}), 500
 

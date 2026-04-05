@@ -9,6 +9,28 @@
 </head>
 
 <body>
+    <!-- Hamburger Menu Area -->
+    <header class="top-nav">
+        <button id="menu-toggle" class="hamburger-btn">
+            &#9776;
+        </button>
+        <span class="logo-text">Tools</span>
+    </header>
+
+    <!-- Side Menu -->
+    <div id="side-menu" class="side-menu">
+        <button id="close-menu" class="close-btn">&times;</button>
+        <h2>Settings</h2>
+        <div class="menu-item">
+            <label for="custom-api-key">Gemini API Key (Optional):</label>
+            <input type="password" id="custom-api-key" placeholder="Enter your key">
+            <p class="help-text">Overrides the default server key</p>
+        </div>
+    </div>
+
+    <!-- Overlay when menu is open -->
+    <div id="menu-overlay" class="menu-overlay"></div>
+
     <div class="container">
         <h1>YouTube Video Summarizer</h1>
         <form id="video-form">
@@ -72,12 +94,18 @@
             try {
                 const youtubeLink = document.getElementById("youtube-link").value;
                 const language = document.getElementById("language-select").value;
+                const apiKey = document.getElementById("custom-api-key").value.trim();
+                
                 const response = await fetch("/process_video", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ youtube_link: youtubeLink, language: language })
+                    body: JSON.stringify({ 
+                        youtube_link: youtubeLink, 
+                        language: language,
+                        api_key: apiKey || undefined 
+                    })
                 });
 
                 const result = await response.json();
@@ -112,6 +140,37 @@
                 console.error("Failed to copy text: ", err);
             });
         });
+
+        // Menu Toggle Logic
+        const menuToggle = document.getElementById("menu-toggle");
+        const closeMenu = document.getElementById("close-menu");
+        const sideMenu = document.getElementById("side-menu");
+        const menuOverlay = document.getElementById("menu-overlay");
+        const apiKeyInput = document.getElementById("custom-api-key");
+
+        // Load saved API key from local storage
+        if (localStorage.getItem("saved_gemini_key")) {
+            apiKeyInput.value = localStorage.getItem("saved_gemini_key");
+        }
+
+        // Save API key on change
+        apiKeyInput.addEventListener("input", function() {
+            localStorage.setItem("saved_gemini_key", apiKeyInput.value);
+        });
+
+        function openMenu() {
+            sideMenu.classList.add("open");
+            menuOverlay.classList.add("active");
+        }
+
+        function closeMenuFunc() {
+            sideMenu.classList.remove("open");
+            menuOverlay.classList.remove("active");
+        }
+
+        menuToggle.addEventListener("click", openMenu);
+        closeMenu.addEventListener("click", closeMenuFunc);
+        menuOverlay.addEventListener("click", closeMenuFunc);
     </script>
 </body>
 
