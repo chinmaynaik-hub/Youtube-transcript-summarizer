@@ -4,16 +4,13 @@ A Flask-based web application that automatically fetches YouTube video captions 
 
 ## Features
 
-- 🎥 Extract captions from any YouTube video
-- 🤖 AI-powered summarization using Google Gemini API
-- 🌐 Multi-language support:
-  - English
-  - Kannada (ಕನ್ನಡ)
-  - Telugu (తెలుగు)
-  - Tamil (தமிழ்)
-  - Malayalam (മലയാളം)
-- 💻 Clean and responsive web interface
-- ⚡ Fast and efficient processing
+-  Extract captions from any YouTube video
+-  AI-powered summarization using Google Gemini API
+-  Multi-language support:
+  - English, Hindi, Spanish, French, German, Japanese, Kannada, Korean, Chinese, Arabic, Portuguese, Russian, Tamil, Telugu, Bengali, Marathi, Gujarati, Urdu, Malayalam
+-  Clean and responsive web interface
+-  **Native Firefox Browser Extension** for 1-click summarization
+-  Fast and efficient processing
 
 ## Prerequisites
 
@@ -63,13 +60,30 @@ Before running this project, ensure you have the following installed:
 ```
 your_project_folder/
 ├── .env                # Environment variables (Google API key)
-├── requirements.txt    # contails all the dependencies
+├── requirements.txt    # contains all the dependencies
 ├── app.py              # Flask backend application
+├── extension/          # Firefox Browser Extension files
+│   ├── manifest.json   # Extension configuration
+│   ├── popup.html      # Extension UI
+│   ├── popup.css       # Extension styles
+│   ├── popup.js        # Extension logic
+│   └── marked.min.js   # Local markdown parsing script
 ├── templates/          # HTML templates
 │   └── index.html     # Main web interface
 └── static/            # Static assets
-    └── style.css      # Stylesheet
+    └── styles.css      # Stylesheet
 ```
+
+## Firefox Browser Extension
+
+Bring the summarizer right into your browser!
+
+1. Open Firefox and go to `about:debugging#/runtime/this-firefox`.
+2. Click **"Load Temporary Add-on..."**.
+3. Select the `manifest.json` file located inside the `extension/` directory.
+4. Go to any YouTube video and click the new extension icon in your toolbar to instantly summarize it.
+
+*Note: Your `app.py` Flask server must be actively running in the background for the extension to fetch data!*
 
 ## Running the Application
 
@@ -106,16 +120,31 @@ GOOGLE_API_KEY=your_google_gemini_api_key
 
 ### Supported Languages
 
-- `en` - English
-- `kn` - Kannada
-- `te` - Telugu
-- `ta` - Tamil
-- `ml` - Malayalam
+- English
+- Hindi
+- Spanish
+- French
+- German
+- Japanese
+- Kannada
+- Korean
+- Chinese
+- Arabic
+- Portuguese
+- Russian
+- Tamil
+- Telugu
+- Bengali
+- Marathi
+- Gujarati
+- Urdu
+- Malayalam
 
 ## Dependencies
 
 - **Flask**: Web framework
-- **youtube-transcript-api**: For fetching video captions
+- **flask-cors**: For secure communication with the browser extension
+- **yt-dlp**: For fetching video captions and transcripts
 - **google-generativeai**: Google Gemini API client
 - **python-dotenv**: Environment variable management
 
