@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Summarizer in Regional languages</title>
+    <link rel="stylesheet" href="popup.css">
+    <!-- Load Marked.js locally to comply with extension security policies -->
+    <script src="marked.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h2>YouTube Summarizer in Regional languages</h2>
+    </div>
+
+    <div class="container">
+        <!-- Using the same language options -->
+        <label for="language-select">Summary Language:</label>
+        <select id="language-select">
+            <option value="English">English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Korean">Korean</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Arabic">Arabic</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Russian">Russian</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Bengali">Bengali</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Gujarati">Gujarati</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Malayalam">Malayalam</option>
+        </select>
+
+        <label for="custom-api-key">Gemini API Key (Optional):</label>
+        <input type="password" id="custom-api-key" placeholder="Enter your key">
+
+        <button id="summarize-btn">Summarize Video</button>
+
+        <div id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Generating summary...</p>
+        </div>
+
+        <div id="result" style="display: none;">
+            <div id="summary"></div>
+            <button id="copy-btn">Copy Summary</button>
+        </div>
+
+        <div id="error" style="display: none;"></div>
+    </div>
+
+    <!-- Scripts are loaded last -->
+    <script src="popup.js"></script>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 from google import genai
@@ -13,6 +14,7 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app) # Enables CORS for all routes
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
