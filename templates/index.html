@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Video Summarizer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Load Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
@@ -111,15 +113,18 @@
                 const result = await response.json();
                 if (response.ok) {
                     document.getElementById("thumbnail").src = result.thumbnail_url;
-                    document.getElementById("summary").textContent = result.summary;
+                    // Parse the raw markdown summary into HTML
+                    document.getElementById("summary").innerHTML = marked.parse(result.summary);
+                    // Store raw markdown in a data attribute for copying
+                    document.getElementById("summary").dataset.rawMarkdown = result.summary;
                     document.getElementById("result").style.display = "block";
                 } else {
                     alert(result.error || "An error occurred while processing the video.");
-                    submitBtn.style.display = "inline-block";
+                    submitBtn.style.display = "block";
                 }
             } catch (err) {
                 alert("Network error. Please try again.");
-                submitBtn.style.display = "inline-block";
+                submitBtn.style.display = "block";
             } finally {
                 loadingEl.style.display = "none";
             }
@@ -129,11 +134,12 @@
             document.getElementById("youtube-link").value = "";
             document.getElementById("result").style.display = "none";
             loadingEl.style.display = "none";
-            submitBtn.style.display = "inline-block";
+            submitBtn.style.display = "block";
         });
 
         document.getElementById("copy-btn").addEventListener("click", function () {
-            const summaryText = document.getElementById("summary").textContent;
+            // Copy the raw markdown text
+            const summaryText = document.getElementById("summary").dataset.rawMarkdown || document.getElementById("summary").innerText;
             navigator.clipboard.writeText(summaryText).then(() => {
                 alert("Summary copied to clipboard!");
             }).catch(err => {
