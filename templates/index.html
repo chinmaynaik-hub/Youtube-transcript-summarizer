@@ -63,7 +63,9 @@
                 <option value="Malayalam">Malayalam</option>
             </select>
 
-            <button type="submit" id="submit-btn">Get Summary</button>
+            <button type="submit" id="submit-btn">
+                <center>Get Summary</center>
+            </button>
             <div class="clear-btn-wrapper">
                 <button type="button" id="clear-btn">Clear</button>
             </div>
@@ -97,16 +99,16 @@
                 const youtubeLink = document.getElementById("youtube-link").value;
                 const language = document.getElementById("language-select").value;
                 const apiKey = document.getElementById("custom-api-key").value.trim();
-                
+
                 const response = await fetch("/process_video", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ 
-                        youtube_link: youtubeLink, 
+                    body: JSON.stringify({
+                        youtube_link: youtubeLink,
                         language: language,
-                        api_key: apiKey || undefined 
+                        api_key: apiKey || undefined
                     })
                 });
 
@@ -160,7 +162,7 @@
         }
 
         // Save API key on change
-        apiKeyInput.addEventListener("input", function() {
+        apiKeyInput.addEventListener("input", function () {
             localStorage.setItem("saved_gemini_key", apiKeyInput.value);
         });
 
