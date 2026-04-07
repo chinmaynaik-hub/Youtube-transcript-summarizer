@@ -59,7 +59,8 @@ def extract_transcript_details(youtube_video_url):
                 'quiet': True,
                 'no_warnings': True,
             }
-
+            #download the transcript and close the network connection and cleans up the memory automatically
+            #ydl is object of yt_dlp library
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([f'https://www.youtube.com/watch?v={video_id}'])
 
@@ -132,9 +133,9 @@ def index():
 def process_video():
     try:
         # Extract YouTube link from the request
-        youtube_link = request.json.get('youtube_link')
+        youtube_link = request.json.get('youtube_link') #automatically convert json to python dictionary
         if not youtube_link:
-            return jsonify({"error": "YouTube URL is required"}), 400
+            return jsonify({"error": "YouTube URL is required"}), 400 # bad request status code
 
         # Get transcript and video ID
         transcript_text, video_id = extract_transcript_details(youtube_link)
