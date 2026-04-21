@@ -162,4 +162,4 @@ Project Link: [https://github.com/chinmaynaik-hub/youtube-transcript-summarizer]
 
 ---
 
-⭐ If you find this project useful, please consider giving it a star!
+⭐ If you find this project useful, please consider giving it a star!!
