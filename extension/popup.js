@@ -57,8 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
 
             if (response.ok) {
-                // Parse markdown into HTML using marked.js
-                summaryEl.innerHTML = marked.parse(result.summary);
+                // Parse markdown into HTML using marked.js (DOMPurify would be ideal for production)
+                const parsedHTML = marked.parse(result.summary);
+                // Clear existing content first
+                summaryEl.textContent = '';
+                // Create a temporary container to parse HTML safely
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = parsedHTML;
+                // Append the parsed content
+                summaryEl.appendChild(tempDiv);
                 // Store raw format for clipboard copying
                 summaryEl.dataset.rawMarkdown = result.summary;
                 resultEl.style.display = "block";
