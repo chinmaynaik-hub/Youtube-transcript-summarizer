@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultEl = document.getElementById("result");
     const errorEl = document.getElementById("error");
     const summaryEl = document.getElementById("summary");
-    
+
     // Load previously saved optional API key
     const customApiKeyInput = document.getElementById("custom-api-key");
     browser.storage.local.get(['saved_gemini_key']).then(result => {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Save API key if entered
         const apiKey = customApiKeyInput.value.trim();
-        browser.storage.local.set({saved_gemini_key: apiKey});
+        browser.storage.local.set({ saved_gemini_key: apiKey });
 
         try {
             // Get the current active tab's URL
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const language = document.getElementById("language-select").value;
 
             // Call localhost API directly
-            const response = await fetch("http://localhost:5000/process_video", {
+            const response = await fetch("https://yt-summarizer-in-regional-languages.onrender.com/process_video", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
